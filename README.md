@@ -40,23 +40,43 @@ php artisan key:generate
 app/
 ├── Services/
 │   └── AnagramService.php      # Main service for anagram grouping
+│   └── TaskSchedulerService.php      # Main service for task scheduler
 ├── Http/
 │   └── Controllers/
 │       └── AnagramController.php # Controller handling anagram endpoints
+│       └── TaskSchedulerController.php # Controller handling task scheduler endpoints
 ```
 
 ## Usage
 
 ### As an API Endpoint
 
-1. Add the route to your `routes/api.php`:
-```php
-use App\Http\Controllers\AnagramController;
+#### Task Scheduler
 
-Route::post('/group-anagrams', [AnagramController::class, 'groupAnagrams']);
+Send a POST request to `/api/task-scheduler`
+
+Example Request:
+```json
+{
+    "numTasks": 5,
+    "dependencies": [
+        [0,1],
+        [0,2],
+        [1,3],
+        [2,4]
+    ],
+    "taskTimes": [2,3,5,4,6]
+}
 ```
 
-2. Send a POST request to `/api/anagrams`
+Example Response:
+```
+Minimal time to complete all tasks: 13
+```
+
+#### Anagram
+
+Send a POST request to `/api/group-anagrams`
 
 Example Request:
 ```json
